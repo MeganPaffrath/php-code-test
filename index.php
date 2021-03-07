@@ -7,6 +7,14 @@
 </head>
 <body>
   <h1>Comment Report:</h1>
+  <?php 
+    include "database/Database.php";
+    $database = new Database();
+    $database->openConnection();
+  ?>
+
+
   <?php include "comment_report.php" ?>
+
 </body>
 </html>
