@@ -1,3 +1,5 @@
+SET sql_mode = '';
+
 DROP TABLE IF EXISTS `sweetwater_test`;
 
 CREATE TABLE `sweetwater_test` (
