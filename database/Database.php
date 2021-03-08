@@ -24,7 +24,6 @@
 
     /**
      * @param array of strings
-     * @return
      */
     function getCommentsContaining($stringList) {
       // create query
@@ -33,6 +32,32 @@
       $sql = "SELECT * FROM " 
         . $schema . ".sweetwater_test "
         . "WHERE comments REGEXP '" . $regexList 
+        . "';";
+
+      // query table
+      $result = $this->database->query($sql);
+
+      if (!empty($result) && $result->num_rows > 0) {
+        echo "There are results";
+
+        while ($row = $result->fetch_assoc()) {
+          echo $row["comments"] . "<br>";
+        }
+      } else {
+        echo "No results found";
+      }
+    }
+
+    /**
+     * @param array of strings
+     */
+    function getCommentsExcluding($stringList) {
+      // create query
+      $regexList = $this->regexSearchStr($stringList);
+      $schema = getenv("SCHEMA");
+      $sql = "SELECT * FROM " 
+        . $schema . ".sweetwater_test "
+        . "WHERE NOT comments REGEXP '" . $regexList 
         . "';";
 
       // query table
