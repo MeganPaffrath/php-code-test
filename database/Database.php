@@ -23,7 +23,7 @@
     }
 
     /**
-     * @param array of strings
+     * @param array $stringList - array of strings to include
      */
     function getCommentsContaining($stringList) {
       // create query
@@ -37,19 +37,12 @@
       // query table
       $result = $this->database->query($sql);
 
-      if (!empty($result) && $result->num_rows > 0) {
-        echo "There are results";
-
-        while ($row = $result->fetch_assoc()) {
-          echo $row["comments"] . "<br>";
-        }
-      } else {
-        echo "No results found";
-      }
+      // show results
+      $this->listResults($result);
     }
 
     /**
-     * @param array of strings
+     * @param array $stringList - array of strings to exclude
      */
     function getCommentsExcluding($stringList) {
       // create query
@@ -63,20 +56,28 @@
       // query table
       $result = $this->database->query($sql);
 
-      if (!empty($result) && $result->num_rows > 0) {
-        echo "There are results";
+      // show results
+      $this->listResults($result);
+    }
 
-        while ($row = $result->fetch_assoc()) {
-          echo $row["comments"] . "<br>";
+    /**
+     * @param object $results - sql query results
+     */
+    function listResults($results) {
+      if (!empty($results) && $results->num_rows > 0) {
+        echo "<ul>";
+        while ($row = $results->fetch_assoc()) {
+          echo "<li>" . $row["comments"] . "</li>";
         }
+        echo "</ul>";
       } else {
         echo "No results found";
       }
     }
 
     /**
-     * @param array of strings
-     * @return string of strings separated by "|"
+     * @param array $stringList - array of strings
+     * @return string - of concatenated strings separated by "|"
      */
     function regexSearchStr($stringList) {
       $list = "";
