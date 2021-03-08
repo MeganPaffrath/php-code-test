@@ -108,7 +108,10 @@
       if (!empty($results) && $results->num_rows > 0) {
         echo "<ul>";
         while ($row = $results->fetch_assoc()) {
-          echo "<li>" . $row["comments"] . "</li>";
+          $shipdate = substr($row["comments"], strpos($row["comments"], "Expected Ship Date:"), 28 );
+          $shipdate = substr($shipdate, -9, 9);
+          echo "<li>" . $shipdate . "</li>";
+          echo "<ul><li>" . $row["comments"] . "</li></ul>";
         }
         echo "</ul>";
       } else {
