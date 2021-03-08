@@ -29,11 +29,12 @@
      * @return
      */
     function getCommentsContaining($stringList) {
-      $list = $this->regexSearchStr($stringList);
-      // $schema = getenv("SCHEMA");
-      // echo "schema :  $schema";
-      $sql = "SELECT * FROM order_info.sweetwater_test";
-      echo "<br> $sql <br>";
+      // create query
+      $regexList = $this->regexSearchStr($stringList);
+      $schema = getenv("SCHEMA");
+      $sql = "SELECT * FROM " . $schema . ".sweetwater_test";
+
+      // query table
       $result = $this->database->query($sql);
 
       if (!empty($result) && $result->num_rows > 0) {

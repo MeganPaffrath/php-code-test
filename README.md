@@ -7,6 +7,7 @@
   export HOST=<host>
   export USERNAME=<user>
   export PASSWORD=<password>
+  export SCHEMA=<schema holding sweetwater_test>
   ```
   - In terminal/shell, source the `.env` file:
     - `source .env`
