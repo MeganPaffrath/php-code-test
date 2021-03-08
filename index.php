@@ -12,12 +12,16 @@
     // $database = new Database();
     $database = Database::getInstance();
     // $database->openConnection();
-    $items = ["candy", "sweets"];
-    $database->getCommentsContaining($items);
+
+    // CANDY
+    echo "<h2>Candy Comments: </h2>";
+    $candyComments = ["candy", "sweets", "smarties", "taffy", "tootsie", "bit o honey", "fireball", "fire ball", "mint"];
+    $database->getCommentsContaining($candyComments);
+
+    // CALL / DONT CALL
+    echo "<h2>Call Comments: </h2>";
+    $callComments = ["call ", "call."];
+    $database->getCommentsContaining($callComments);
   ?>
-
-
-  <?php include "comment_report.php" ?>
-
 </body>
 </html>

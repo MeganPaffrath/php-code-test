@@ -13,14 +13,12 @@
         echo "problem";
         die("Connection failure: " . mysqli_connect_error());
       } 
-      echo "CONNECTED";
     }
 
     public static function getInstance() {
       if (self::$instance == null) {
         self::$instance = new Database();
       }
-
       return self::$instance;
     }
 
@@ -32,13 +30,20 @@
       // create query
       $regexList = $this->regexSearchStr($stringList);
       $schema = getenv("SCHEMA");
-      $sql = "SELECT * FROM " . $schema . ".sweetwater_test";
+      $sql = "SELECT * FROM " 
+        . $schema . ".sweetwater_test "
+        . "WHERE comments REGEXP '" . $regexList 
+        . "';";
 
       // query table
       $result = $this->database->query($sql);
 
       if (!empty($result) && $result->num_rows > 0) {
         echo "There are results";
+
+        while ($row = $result->fetch_assoc()) {
+          echo $row["comments"] . "<br>";
+        }
       } else {
         echo "No results found";
       }
