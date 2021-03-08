@@ -110,6 +110,7 @@
         while ($row = $results->fetch_assoc()) {
           $shipdate = substr($row["comments"], strpos($row["comments"], "Expected Ship Date:"), 28 );
           $shipdate = substr($shipdate, -9, 9);
+          $shipdate = str_replace("/", "-", $shipdate) . " 00:00:00";
           echo "<li>" . $shipdate . "</li>";
           echo "<ul><li>" . $row["comments"] . "</li></ul>";
         }
