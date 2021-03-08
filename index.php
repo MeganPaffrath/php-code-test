@@ -9,9 +9,7 @@
   <h1>Comment Report:</h1>
   <?php 
     include "database/Database.php";
-    // $database = new Database();
     $database = Database::getInstance();
-    // $database->openConnection();
 
     // CANDY
     echo "<h2>Candy Comments: </h2>";
@@ -20,7 +18,7 @@
 
     // CALL / DONT CALL
     echo "<h2>Call Comments: </h2>";
-    $callComments = ["call", "mobile", "phone", "móvil", "teléfono", "llamada"];
+    $callComments = ["call", "mobile", "phone", "móvil", "teléfono", "llamada", "llámame"];
     $database->getCommentsContaining($callComments);
 
     // REFERRED
