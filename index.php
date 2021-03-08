@@ -9,8 +9,11 @@
   <h1>Comment Report:</h1>
   <?php 
     include "database/Database.php";
-    $database = new Database();
-    $database->openConnection();
+    // $database = new Database();
+    $database = Database::getInstance();
+    // $database->openConnection();
+    $items = ["candy", "sweets"];
+    $database->getCommentsContaining($items);
   ?>
 
 

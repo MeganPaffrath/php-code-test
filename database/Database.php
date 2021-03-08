@@ -1,19 +1,64 @@
 <?php
   class Database {
-    function openConnection() {
+    private static $instance = null;
+    private $database = null;
+
+    private function __construct() {
       $host = getenv("HOST");
       $username = getenv("USERNAME");
       $password = getenv("PASSWORD");
 
-      $connection = mysqli_connect($host, $username, $password);
-      if (!$connection) {
+      $this->database = mysqli_connect($host, $username, $password);
+      if (!$this->database) {
+        echo "problem";
         die("Connection failure: " . mysqli_connect_error());
       } 
       echo "CONNECTED";
     }
 
-    function getData() {
+    public static function getInstance() {
+      if (self::$instance == null) {
+        self::$instance = new Database();
+      }
 
+      return self::$instance;
     }
+
+    /**
+     * @param array of strings
+     * @return
+     */
+    function getCommentsContaining($stringList) {
+      $list = $this->regexSearchStr($stringList);
+      // $schema = getenv("SCHEMA");
+      // echo "schema :  $schema";
+      $sql = "SELECT * FROM order_info.sweetwater_test";
+      echo "<br> $sql <br>";
+      $result = $this->database->query($sql);
+
+      if (!empty($result) && $result->num_rows > 0) {
+        echo "There are results";
+      } else {
+        echo "No results found";
+      }
+    }
+
+    /**
+     * @param array of strings
+     * @return string of strings separated by "|"
+     */
+    function regexSearchStr($stringList) {
+      $list = "";
+      foreach ($stringList as &$item) {
+        if ($list == "") {
+          $list = $item;
+        } else {
+          $list = $list . "|" . $item;
+        }
+      }
+      return $list;
+    }
+
+    
   }
 ?>
