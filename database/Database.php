@@ -1,7 +1,7 @@
 <?php
   class Database {
     private static $instance = null;
-    private $database = null;
+    private $database = null;   
 
     private function __construct() {
       $host = getenv("HOST");
@@ -92,7 +92,6 @@
     }
 
     function populateExpectedShipdate() {
-      echo "populate";
       $schema = getenv("SCHEMA");
       $sql = "SELECT * FROM " 
         . $schema . ".sweetwater_test "
@@ -113,6 +112,8 @@
           $shipdate = str_replace("/", "-", $shipdate) . " 00:00:00";
           echo "<li>" . $shipdate . "</li>";
           echo "<ul><li>" . $row["comments"] . "</li></ul>";
+
+          $this->updateOrderShipdate($row["orderid"], $shipdate);
         }
         echo "</ul>";
       } else {
@@ -121,7 +122,16 @@
     }
 
     function updateOrderShipdate($orderID, $shipdate) {
-
+      $schema = getenv("SCHEMA");
+      $sql = "UPDATE " . $schema . ".sweetwater_test "
+        . "SET shipdate_expected='" . $shipdate 
+        . "' WHERE orderid='" . $orderID . "';";
+      echo $sql . "<br>";
+      if ($this->database->query($sql) === TRUE) {
+        echo "Record updated";
+      } else {
+        echo "Record update error: " . $this->database->error;
+      }
     }
   }
 ?>
