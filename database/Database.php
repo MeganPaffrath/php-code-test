@@ -91,6 +91,23 @@
       return $list;
     }
 
-    
+    function populateExpectedShipdate() {
+      $schema = getenv("SCHEMA");
+      $sql = "SELECT * FROM " 
+        . $schema . ".sweetwater_test;";
+      // query table
+      $result = $this->database->query($sql);
+
+      // show results
+      $this->listResults($result);
+    }
+
+    function parseAndUpdateShipdate() {
+
+    }
+
+    function updateOrderShipdate($orderID, $shipdate) {
+
+    }
   }
 ?>
