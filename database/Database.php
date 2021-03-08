@@ -109,11 +109,14 @@
         while ($row = $results->fetch_assoc()) {
           $shipdate = substr($row["comments"], strpos($row["comments"], "Expected Ship Date:"), 28 );
           $shipdate = substr($shipdate, -9, 9);
-          $shipdate = str_replace("/", "-", $shipdate) . " 00:00:00";
-          echo "<li>" . $shipdate . "</li>";
-          echo "<ul><li>" . $row["comments"] . "</li></ul>";
+          // $shipdate = str_replace("/", "-", $shipdate) . " 00:00:00";
+          $shipdate = $this->dateFormatter($shipdate);
 
-          $this->updateOrderShipdate($row["orderid"], $shipdate);
+          // COMPARE TO PROPER FORMAT....
+          if ($shipdate !== $row["shipdate_expected"]) {
+            echo "<br>$shipdate !== " . $row["shipdate_expected"];
+            $this->updateOrderShipdate($row["orderid"], $shipdate);
+          }
         }
         echo "</ul>";
       } else {
@@ -121,14 +124,29 @@
       }
     }
 
+    function dateFormatter($shipdate) {
+      
+      $month = substr($shipdate, 1, 2);
+      $day = substr($shipdate, 4, 2);
+      $year = "20" . substr($shipdate, 7, 2);
+
+      $dateFormat = "$year-$month-$day  00:00:00";
+
+      // CHANGE TO PROPPER DATE
+
+      echo "$shipdate -> Year: $year, month: $month, day: $day -> $dateFormat";
+      str_replace("/", "-", $shipdate) . " 00:00:00";
+      return $dateFormat;
+    }
+
     function updateOrderShipdate($orderID, $shipdate) {
       $schema = getenv("SCHEMA");
       $sql = "UPDATE " . $schema . ".sweetwater_test "
         . "SET shipdate_expected='" . $shipdate 
         . "' WHERE orderid='" . $orderID . "';";
-      echo $sql . "<br>";
       if ($this->database->query($sql) === TRUE) {
-        echo "Record updated";
+        echo "<li>Updating id: " . $orderID 
+          . "'s shipdate to " . $shipdate . "</li>";
       } else {
         echo "Record update error: " . $this->database->error;
       }
