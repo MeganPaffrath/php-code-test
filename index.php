@@ -31,10 +31,14 @@
     $signatureComments = ["signature", "firma"];
     $database->getCommentsContaining($signatureComments);
 
-    // REFERRED
+    // Misc Comments
     echo "<h2>Misc Comments: </h2>";
     $miscComments = array_merge($candyComments, $callComments, $referredComments, $signatureComments);
     $database->getCommentsExcluding($miscComments);
+
+    // Update shipdate
+    echo "<h1>Calling populateExpectedShipdate...</h1>";
+    $database->populateExpectedShipdate();
   ?>
 </body>
 </html>
