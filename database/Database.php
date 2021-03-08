@@ -92,18 +92,28 @@
     }
 
     function populateExpectedShipdate() {
+      echo "populate";
       $schema = getenv("SCHEMA");
       $sql = "SELECT * FROM " 
-        . $schema . ".sweetwater_test;";
+        . $schema . ".sweetwater_test "
+        . "WHERE comments REGEXP 'Expected Ship Date:';";
       // query table
       $result = $this->database->query($sql);
 
       // show results
-      $this->listResults($result);
+      $this->parseAndUpdateShipdate($result);
     }
 
-    function parseAndUpdateShipdate() {
-
+    function parseAndUpdateShipdate($results) {
+      if (!empty($results) && $results->num_rows > 0) {
+        echo "<ul>";
+        while ($row = $results->fetch_assoc()) {
+          echo "<li>" . $row["comments"] . "</li>";
+        }
+        echo "</ul>";
+      } else {
+        echo "No results found";
+      }
     }
 
     function updateOrderShipdate($orderID, $shipdate) {
