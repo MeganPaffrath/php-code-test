@@ -36,7 +36,7 @@
     $miscComments = array_merge($candyComments, $callComments, $referredComments, $signatureComments);
     $database->getCommentsExcluding($miscComments);
 
-    // Temp - update shipdate
+    // Update shipdate
     echo "<h1>Calling populateExpectedShipdate...</h1>";
     $database->populateExpectedShipdate();
   ?>

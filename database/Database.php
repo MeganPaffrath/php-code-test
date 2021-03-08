@@ -23,6 +23,7 @@
     }
 
     /**
+     * Displays comments that contain any strings within an array of strings
      * @param array $stringList - array of strings to include
      */
     function getCommentsContaining($stringList) {
@@ -42,6 +43,7 @@
     }
 
     /**
+     * Displays comments that do not enclude any strings within an array of strings
      * @param array $stringList - array of strings to exclude
      */
     function getCommentsExcluding($stringList) {
@@ -61,6 +63,7 @@
     }
 
     /**
+     * Displays a list of comments
      * @param object $results - sql query results
      */
     function listResults($results) {
@@ -76,6 +79,7 @@
     }
 
     /**
+     * Creates regex search string from array
      * @param array $stringList - array of strings
      * @return string - of concatenated strings separated by "|"
      */
@@ -91,6 +95,10 @@
       return $list;
     }
 
+    /**
+     * Updates sweetwater_test table if applicable
+     * Shows updates made and if updates were made
+     */
     function populateExpectedShipdate() {
       $schema = getenv("SCHEMA");
       $sql = "SELECT * FROM " 
@@ -103,6 +111,10 @@
       $this->parseAndUpdateShipdate($result);
     }
 
+    /**
+     * Iterates through query results to update sweetwater_test table
+     * @param object $results - sql query results
+     */
     function parseAndUpdateShipdate($results) {
       $updates = 0;
       if (!empty($results) && $results->num_rows > 0) {
@@ -113,9 +125,7 @@
           $shipdate = $this->dateFormatter($shipdate);
 
           // convert strings to dates
-          $shipDateTime = strtotime($shipdate);
           $shipDateFormat = date('Y-m-d',strtotime($shipdate));
-          $expectedShipDate = strtotime($row["shipdate_expected"]);
           $expectedShipDateFormat = date('Y-m-d', strtotime($row["shipdate_expected"]));
 
           // update if shipdate_expected in table does not match comment
@@ -135,17 +145,11 @@
       }
     }
 
-    function dateFormatter($shipdate) {
-      
-      $month = substr($shipdate, 1, 2);
-      $day = substr($shipdate, 4, 2);
-      $year = "20" . substr($shipdate, 7, 2);
-      $dateFormat = "$year-$month-$day  00:00:00";
-
-      str_replace("/", "-", $shipdate) . " 00:00:00";
-      return $dateFormat;
-    }
-
+    /** 
+     * Updates sweetwater_test table with new shipdate_expected
+     * @param string $orderID - the SQL order id
+     * @param string $shipdate - a date string in datetime format
+     */
     function updateOrderShipdate($orderID, $shipdate) {
       $schema = getenv("SCHEMA");
       $sql = "UPDATE " . $schema . ".sweetwater_test "
@@ -158,5 +162,21 @@
         echo "Record update error: " . $this->database->error;
       }
     }
+
+    /**
+     * Takes date string and converts to datetime string
+     * @param string $shipdate - a date in mm/dd/yy format
+     * @return string - a date in yyyy-mm-dd hh:mm:ss format
+     */
+    function dateFormatter($shipdate) {
+      $month = substr($shipdate, 1, 2);
+      $day = substr($shipdate, 4, 2);
+      $year = "20" . substr($shipdate, 7, 2);
+      $dateFormat = "$year-$month-$day  00:00:00";
+
+      str_replace("/", "-", $shipdate) . " 00:00:00";
+      return $dateFormat;
+    }
+    
   }
 ?>
