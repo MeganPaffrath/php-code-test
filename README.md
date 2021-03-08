@@ -9,9 +9,9 @@
   export PASSWORD=<password>
   export SCHEMA=<schema holding sweetwater_test>
   ```
-  - In terminal/shell, source the `.env` file:
-    - `source .env`
-- To run: `php -S 127.0.0.1:8000`
+- Start project from terminal/shell:
+  - source the `.env` file: `source .env`
+  - run: `php -S 127.0.0.1:8000`
 
 ## Intro
 
