@@ -104,21 +104,32 @@
     }
 
     function parseAndUpdateShipdate($results) {
+      $updates = 0;
       if (!empty($results) && $results->num_rows > 0) {
         echo "<ul>";
         while ($row = $results->fetch_assoc()) {
           $shipdate = substr($row["comments"], strpos($row["comments"], "Expected Ship Date:"), 28 );
           $shipdate = substr($shipdate, -9, 9);
-          // $shipdate = str_replace("/", "-", $shipdate) . " 00:00:00";
           $shipdate = $this->dateFormatter($shipdate);
 
-          // COMPARE TO PROPER FORMAT....
-          if ($shipdate !== $row["shipdate_expected"]) {
-            echo "<br>$shipdate !== " . $row["shipdate_expected"];
+          // convert strings to dates
+          $shipDateTime = strtotime($shipdate);
+          $shipDateFormat = date('Y-m-d',strtotime($shipdate));
+          $expectedShipDate = strtotime($row["shipdate_expected"]);
+          $expectedShipDateFormat = date('Y-m-d', strtotime($row["shipdate_expected"]));
+
+          // update if shipdate_expected in table does not match comment
+          if ($shipDateFormat !== $expectedShipDateFormat) {
             $this->updateOrderShipdate($row["orderid"], $shipdate);
+            $updates++;
           }
         }
         echo "</ul>";
+        if ($updates === 0) {
+          echo "<p>Database is up to date!</p>";
+        } else {
+          echo "<p>$updates update(s) made</p>";
+        }
       } else {
         echo "No results found";
       }
@@ -129,12 +140,8 @@
       $month = substr($shipdate, 1, 2);
       $day = substr($shipdate, 4, 2);
       $year = "20" . substr($shipdate, 7, 2);
-
       $dateFormat = "$year-$month-$day  00:00:00";
 
-      // CHANGE TO PROPPER DATE
-
-      echo "$shipdate -> Year: $year, month: $month, day: $day -> $dateFormat";
       str_replace("/", "-", $shipdate) . " 00:00:00";
       return $dateFormat;
     }
