@@ -12,7 +12,7 @@
 
       $this->database = mysqli_connect($host, $username, $password);
       if (!$this->database) {
-        echo "problem";
+        echo "Database failed to connect...";
         die("Connection failure: " . mysqli_connect_error());
       } 
     }
@@ -67,12 +67,15 @@
      * @param object $results - sql query results
      */
     function listResults($results) {
+      $count = 0;
       if (!empty($results) && $results->num_rows > 0) {
         echo "<ul>";
         while ($row = $results->fetch_assoc()) {
           echo "<li>" . $row["comments"] . "</li>";
+          $count++;
         }
         echo "</ul>";
+        echo "Total comments in category: $count";
       } else {
         echo "No results found";
       }
@@ -106,7 +109,7 @@
       // query table
       $result = $this->database->query($sql);
 
-      // show results
+      // update and show updates made
       $this->parseAndUpdateShipdate($result);
     }
 
@@ -135,7 +138,7 @@
         }
         echo "</ul>";
         if ($updates === 0) {
-          echo "<p>Database is up to date!</p>";
+          echo "<p>Database is up to date! No updates needed!</p>";
         } else {
           echo "<p>$updates update(s) made</p>";
         }
@@ -170,10 +173,7 @@
       $month = substr($shipdate, 1, 2);
       $day = substr($shipdate, 4, 2);
       $year = "20" . substr($shipdate, 7, 2);
-      $dateFormat = "$year-$month-$day  00:00:00";
-
-      str_replace("/", "-", $shipdate) . " 00:00:00";
-      return $dateFormat;
+      return "$year-$month-$day  00:00:00";
     }
     
   }
