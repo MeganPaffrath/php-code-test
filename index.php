@@ -18,17 +18,17 @@
 
     // CALL / DONT CALL
     echo "<h2>Call Comments: </h2>";
-    $callComments = ["call[[:blank:]]", "call[,]", "call[.]", "calls[,]", "calls[[:blank:]]", "calls[.]", "mobile", "phone", "móvil", "teléfono", "llamada", "llámame"];
+    $callComments = ["call[[:blank:]]", "call[,]", "call[.]", "call[!]", "calls[,]", "calls[[:blank:]]", "calls[.]", "calls[!]","mobile", "phone", "móvil", "teléfono", "llamada", "llámame"];
     $database->getCommentsContaining($callComments);
 
     // REFERRED
     echo "<h2>Referred Comments: </h2>";
-    $referredComments = ["referred", "refirió", "refiero"];
+    $referredComments = ["referred", "referral", "refirió", "refiero"];
     $database->getCommentsContaining($referredComments);
 
     // SIGNATURE REQ
     echo "<h2>Signature Comments: </h2>";
-    $signatureComments = ["signature", "firma"];
+    $signatureComments = ["signature", "[[:blank:]]sign[[:blank:]]", "[[:blank:]]sign[.]", "[[:blank:]]sign[!]", "[[:blank:]]sign[,]", "firma"];
     $database->getCommentsContaining($signatureComments);
 
     // Misc Comments
