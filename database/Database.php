@@ -2,11 +2,13 @@
   class Database {
     private static $instance = null;
     private $database = null;   
+    private $schema = null;
 
     private function __construct() {
       $host = getenv("HOST");
       $username = getenv("USERNAME");
       $password = getenv("PASSWORD");
+      $this->schema = getenv("SCHEMA");
 
       $this->database = mysqli_connect($host, $username, $password);
       if (!$this->database) {
@@ -29,9 +31,8 @@
     function getCommentsContaining($stringList) {
       // create query
       $regexList = $this->regexSearchStr($stringList);
-      $schema = getenv("SCHEMA");
       $sql = "SELECT * FROM " 
-        . $schema . ".sweetwater_test "
+        . $this->schema . ".sweetwater_test "
         . "WHERE comments REGEXP '" . $regexList 
         . "';";
 
@@ -49,9 +50,8 @@
     function getCommentsExcluding($stringList) {
       // create query
       $regexList = $this->regexSearchStr($stringList);
-      $schema = getenv("SCHEMA");
       $sql = "SELECT * FROM " 
-        . $schema . ".sweetwater_test "
+        . $this->schema . ".sweetwater_test "
         . "WHERE NOT comments REGEXP '" . $regexList 
         . "';";
 
@@ -100,9 +100,8 @@
      * Shows updates made and if updates were made
      */
     function populateExpectedShipdate() {
-      $schema = getenv("SCHEMA");
       $sql = "SELECT * FROM " 
-        . $schema . ".sweetwater_test "
+        . $this->schema . ".sweetwater_test "
         . "WHERE comments REGEXP 'Expected Ship Date:';";
       // query table
       $result = $this->database->query($sql);
@@ -151,8 +150,7 @@
      * @param string $shipdate - a date string in datetime format
      */
     function updateOrderShipdate($orderID, $shipdate) {
-      $schema = getenv("SCHEMA");
-      $sql = "UPDATE " . $schema . ".sweetwater_test "
+      $sql = "UPDATE " . $this->schema . ".sweetwater_test "
         . "SET shipdate_expected='" . $shipdate 
         . "' WHERE orderid='" . $orderID . "';";
       if ($this->database->query($sql) === TRUE) {
