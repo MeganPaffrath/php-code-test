@@ -18,7 +18,7 @@
 
     // CALL / DONT CALL
     echo "<h2>Call Comments: </h2>";
-    $callComments = ["call", "mobile", "phone", "móvil", "teléfono", "llamada", "llámame"];
+    $callComments = ["call[[:blank:]]", "call[,]", "call[.]", "calls[,]", "calls[[:blank:]]", "calls[.]", "mobile", "phone", "móvil", "teléfono", "llamada", "llámame"];
     $database->getCommentsContaining($callComments);
 
     // REFERRED
