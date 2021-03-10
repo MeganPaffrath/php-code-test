@@ -29,44 +29,6 @@
     }
 
     /**
-     * Displays comments that contain any strings within an array of strings
-     * @param array $stringList - array of strings to include
-     */
-    function getCommentsContaining($stringList) {
-      // create query
-      $regexList = $this->regexSearchStr($stringList);
-      $sql = "SELECT * FROM " 
-        . $this->schema . ".sweetwater_test "
-        . "WHERE comments REGEXP '" . $regexList 
-        . "';";
-
-      // query table
-      $result = $this->database->query($sql);
-
-      // show results
-      $this->listResults($result);
-    }
-
-    /**
-     * Displays comments that do not enclude any strings within an array of strings
-     * @param array $stringList - array of strings to exclude
-     */
-    function getCommentsExcluding($stringList) {
-      // create query
-      $regexList = $this->regexSearchStr($stringList);
-      $sql = "SELECT * FROM " 
-        . $this->schema . ".sweetwater_test "
-        . "WHERE NOT comments REGEXP '" . $regexList 
-        . "';";
-
-      // query table
-      $result = $this->database->query($sql);
-
-      // show results
-      $this->listResults($result);
-    }
-
-    /**
      * Displays a list of comments
      * @param object $results - sql query results
      */
@@ -85,22 +47,6 @@
       }
     }
 
-    /**
-     * Creates regex search string from array
-     * @param array $stringList - array of strings
-     * @return string - of concatenated strings separated by "|"
-     */
-    function regexSearchStr($stringList) {
-      $list = "";
-      foreach ($stringList as &$item) {
-        if ($list == "") {
-          $list = $item;
-        } else {
-          $list = $list . "|" . $item;
-        }
-      }
-      return $list;
-    }
 
     /**
      * Updates sweetwater_test table if applicable
