@@ -9,7 +9,14 @@
   <h1>Comment Report:</h1>
   <?php 
     include "database/Database.php";
+    include "database/DatabaseReader.php";
     $database = Database::getInstance();
+    $databaseReader = new DatabaseReader();
+
+    // Hello - test
+    echo "<h2>Hello test Comments: </h2>";
+    $helloTest = ["hi", "hello"];
+    $databaseReader->getCommentsContaining($helloTest);
 
     // CANDY
     echo "<h2>Candy Comments: </h2>";

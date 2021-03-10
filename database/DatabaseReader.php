@@ -1,27 +1,9 @@
 <?php
-  class Database {
-    private static $instance = null;
-    private $database = null;   
-    private $schema = null;
+  class DatabaseReader {
+    private $database = null;
 
-    private function __construct() {
-      $host = getenv("HOST");
-      $username = getenv("USERNAME");
-      $password = getenv("PASSWORD");
-      $this->schema = getenv("SCHEMA");
-
-      $this->database = mysqli_connect($host, $username, $password);
-      if (!$this->database) {
-        echo "Database failed to connect...";
-        die("Connection failure: " . mysqli_connect_error());
-      }
-    }
-
-    public static function getInstance() {
-      if (self::$instance == null) {
-        self::$instance = new Database();
-      }
-      return self::$instance;
+    public function __construct() {
+      $this->database = Database::getInstance();
     }
 
     /**
@@ -175,6 +157,5 @@
       $year = "20" . substr($shipdate, 7, 2);
       return "$year-$month-$day  00:00:00";
     }
-    
   }
 ?>
