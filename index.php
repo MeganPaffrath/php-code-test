@@ -15,7 +15,7 @@
 
     // Hello - test
     echo "<h2>Hello test Comments: </h2>";
-    $helloTest = ["hi", "hello"];
+    $helloTest = ["hello"];
     $databaseReader->getCommentsContaining($helloTest);
 
     // CANDY

@@ -24,6 +24,10 @@
       return self::$instance;
     }
 
+    public function getDatabase() {
+      return $this->database;
+    }
+
     /**
      * Displays comments that contain any strings within an array of strings
      * @param array $stringList - array of strings to include

@@ -1,9 +1,12 @@
 <?php
   class DatabaseReader {
     private $database = null;
+    private $schema = null;
 
     public function __construct() {
-      $this->database = Database::getInstance();
+      $db = Database::getInstance();
+      $this->database = $db->getDatabase();
+      $this->schema = getenv("SCHEMA");
     }
 
     /**
