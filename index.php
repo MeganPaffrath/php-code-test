@@ -10,8 +10,10 @@
   <?php 
     include "database/Database.php";
     include "database/DatabaseReader.php";
+    include "database/DatabaseWritter.php";
     $database = Database::getInstance();
     $databaseReader = new DatabaseReader();
+    $databaseWritter = new DatabaseWritter();
 
     // CANDY
     echo "<h2>Candy Comments: </h2>";
@@ -40,7 +42,7 @@
 
     // Update shipdate
     echo "<h1>Calling populateExpectedShipdate...</h1>";
-    $database->populateExpectedShipdate();
+    $databaseWritter->populateExpectedShipdate();
   ?>
 </body>
 </html>
