@@ -29,26 +29,6 @@
     }
 
     /**
-     * Displays a list of comments
-     * @param object $results - sql query results
-     */
-    function listResults($results) {
-      $count = 0;
-      if (!empty($results) && $results->num_rows > 0) {
-        echo "<ul>";
-        while ($row = $results->fetch_assoc()) {
-          echo "<li>" . $row["comments"] . "</li>";
-          $count++;
-        }
-        echo "</ul>";
-        echo "Total comments in category: $count";
-      } else {
-        echo "No results found";
-      }
-    }
-
-
-    /**
      * Updates sweetwater_test table if applicable
      * Shows updates made and if updates were made
      */
