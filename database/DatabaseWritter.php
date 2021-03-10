@@ -26,6 +26,7 @@
 
     /**
      * Iterates through query results to update sweetwater_test table
+     * Only updates results where dates don't match
      * @param object $results - sql query results
      */
     function parseAndUpdateShipdate($results) {
