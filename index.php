@@ -9,36 +9,40 @@
   <h1>Comment Report:</h1>
   <?php 
     include "database/Database.php";
+    include "database/DatabaseReader.php";
+    include "database/DatabaseWritter.php";
     $database = Database::getInstance();
+    $databaseReader = new DatabaseReader();
+    $databaseWritter = new DatabaseWritter();
 
     // CANDY
     echo "<h2>Candy Comments: </h2>";
     $candyComments = ["candy", "sweets", "caramelo", "dulce", "smarties", "taffy", "tootsie", "bit o honey", "fireball", "fire ball", "mint"];
-    $database->getCommentsContaining($candyComments);
+    $databaseReader->getCommentsContaining($candyComments);
 
     // CALL / DONT CALL
     echo "<h2>Call Comments: </h2>";
     $callComments = ["call[[:blank:]]", "call[,]", "call[.]", "call[!]", "calls[,]", "calls[[:blank:]]", "calls[.]", "calls[!]","mobile", "phone", "móvil", "teléfono", "llamada", "llámame"];
-    $database->getCommentsContaining($callComments);
+    $databaseReader->getCommentsContaining($callComments);
 
     // REFERRED
     echo "<h2>Referred Comments: </h2>";
     $referredComments = ["referred", "referral", "refirió", "refiero"];
-    $database->getCommentsContaining($referredComments);
+    $databaseReader->getCommentsContaining($referredComments);
 
     // SIGNATURE REQ
     echo "<h2>Signature Comments: </h2>";
     $signatureComments = ["signature", "[[:blank:]]sign[[:blank:]]", "[[:blank:]]sign[.]", "[[:blank:]]sign[!]", "[[:blank:]]sign[,]", "firma"];
-    $database->getCommentsContaining($signatureComments);
+    $databaseReader->getCommentsContaining($signatureComments);
 
     // Misc Comments
     echo "<h2>Misc Comments: </h2>";
     $miscComments = array_merge($candyComments, $callComments, $referredComments, $signatureComments);
-    $database->getCommentsExcluding($miscComments);
+    $databaseReader->getCommentsExcluding($miscComments);
 
     // Update shipdate
     echo "<h1>Calling populateExpectedShipdate...</h1>";
-    $database->populateExpectedShipdate();
+    $databaseWritter->populateExpectedShipdate();
   ?>
 </body>
 </html>
